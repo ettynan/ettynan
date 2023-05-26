@@ -1,3 +1,3 @@
 ### Hi there 👋
 
-Problem Solver, Operations Enthusiast, Explorer
+I'm Erin -> Problem Solver, Operations Enthusiast, Explorer. 
