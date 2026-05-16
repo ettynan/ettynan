@@ -5,6 +5,9 @@ on:
     - cron: '0 12 * * *'  # Runs every day at noon UTC
   workflow_dispatch:       # Allows manual trigger
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   update-readme:
     runs-on: ubuntu-latest
@@ -14,11 +17,6 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
-
-      - name: Setup Node.js 24
-        uses: actions/setup-node@v4
-        with:
-          node-version: '24'
 
       - name: Fetch a random fact
         id: fact
