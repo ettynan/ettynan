@@ -1,0 +1,55 @@
+name: Daily Fact Update
+
+on:
+  schedule:
+    - cron: '0 12 * * *'  # Runs every day at noon UTC
+  workflow_dispatch:       # Allows manual trigger
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Fetch a random fact
+        id: fact
+        run: |
+          FACT=$(curl -s https://uselessfacts.jsph.pl/api/v2/facts/random?language=en | python3 -c "import sys, json; print(json.load(sys.stdin)['text'])")
+          echo "fact=$FACT" >> $GITHUB_OUTPUT
+
+      - name: Update README with fact
+        run: |
+          FACT="${{ steps.fact.outputs.fact }}"
+          DATE=$(date +"%B %d, %Y")
+
+          # Replace everything between the markers with the new fact
+          python3 -c "
+          import re, sys
+
+          with open('README.md', 'r') as f:
+              content = f.read()
+
+          new_section = '<!-- DAILY_FACT_START -->\n> 🧠 **Daily Fact ($DATE):** $FACT\n<!-- DAILY_FACT_END -->'
+
+          updated = re.sub(
+              r'<!-- DAILY_FACT_START -->.*?<!-- DAILY_FACT_END -->',
+              new_section,
+              content,
+              flags=re.DOTALL
+          )
+
+          with open('README.md', 'w') as f:
+              f.write(updated)
+          "
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add README.md
+          git diff --cached --quiet || git commit -m "chore: update daily fact"
+          git push
