@@ -5,9 +5,6 @@ on:
     - cron: '0 12 * * *'  # Runs every day at noon UTC
   workflow_dispatch:       # Allows manual trigger
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
 jobs:
   update-readme:
     runs-on: ubuntu-latest
@@ -29,9 +26,8 @@ jobs:
           FACT="${{ steps.fact.outputs.fact }}"
           DATE=$(date +"%B %d, %Y")
 
-          # Replace everything between the markers with the new fact
           python3 -c "
-          import re, sys
+          import re
 
           with open('README.md', 'r') as f:
               content = f.read()
@@ -51,8 +47,8 @@ jobs:
 
       - name: Commit and push changes
         run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git config --global user.name 'ettynan'
+          git config --global user.email '${{ secrets.GIT_EMAIL }}'
           git add README.md
           git diff --cached --quiet || git commit -m "chore: update daily fact"
           git push
