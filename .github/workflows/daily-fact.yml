@@ -51,4 +51,5 @@ jobs:
           git config --global user.email '${{ secrets.GIT_EMAIL }}'
           git add README.md
           git diff --cached --quiet || git commit -m "chore: update daily fact"
+          git pull --rebase
           git push
