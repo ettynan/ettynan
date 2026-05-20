@@ -19,7 +19,11 @@ jobs:
         id: fact
         run: |
           FACT=$(curl -s https://uselessfacts.jsph.pl/api/v2/facts/random?language=en | python3 -c "import sys, json; print(json.load(sys.stdin)['text'])")
-          echo "fact=$FACT" >> $GITHUB_OUTPUT
+          {
+          echo 'fact<<EOF'
+          echo "$FACT"
+          echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
 
       - name: Update README with fact
         run: |
