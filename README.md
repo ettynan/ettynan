@@ -3,5 +3,5 @@
 I'm Erin -> Problem Solver, Operations Enthusiast, Explorer. 
 
 <!-- DAILY_FACT_START -->
-> 🧠 **Daily Fact (May 19, 2026):** The Simpsons is the longest running animated series on TV.
+> 🧠 **Daily Fact (May 20, 2026):** Kelsey Grammar sings and plays the piano for the theme song of Fraiser.
 <!-- DAILY_FACT_END -->
