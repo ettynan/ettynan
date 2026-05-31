@@ -18,10 +18,10 @@ jobs:
       - name: Fetch a random fact
         id: fact
         run: |
-          FACT=$(curl -s https://uselessfacts.jsph.pl/api/v2/facts/random?language=en | python3 -c "import sys, json; print(json.load(sys.stdin)['text'])")
+          FETCHED_FACT=$(curl -s https://uselessfacts.jsph.pl/api/v2/facts/random?language=en | python3 -c "import sys, json; print(json.load(sys.stdin)['text'])")
           {
           echo 'fact<<EOF'
-          echo "$FACT"
+          echo "$FETCHED_FACT"
           echo 'EOF'
           } >> "$GITHUB_OUTPUT"
 
@@ -30,24 +30,10 @@ jobs:
           FACT="${{ steps.fact.outputs.fact }}"
           DATE=$(date +"%B %d, %Y")
 
-          python3 -c "
-          import re
+          export FACT
+          export DATE
 
-          with open('README.md', 'r') as f:
-              content = f.read()
-
-          new_section = '<!-- DAILY_FACT_START -->\n> 🧠 **Daily Fact ($DATE):** $FACT\n<!-- DAILY_FACT_END -->'
-
-          updated = re.sub(
-              r'<!-- DAILY_FACT_START -->.*?<!-- DAILY_FACT_END -->',
-              new_section,
-              content,
-              flags=re.DOTALL
-          )
-
-          with open('README.md', 'w') as f:
-              f.write(updated)
-          "
+          python3 scripts/update_fact.py
 
       - name: Commit and push changes
         run: |
