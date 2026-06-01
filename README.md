@@ -3,5 +3,5 @@
 I'm Erin -> Problem Solver, Operations Enthusiast, Explorer. 
 
 <!-- DAILY_FACT_START -->
-> 🧠 **Daily Fact (May 31, 2026):** Any free-moving liquid in outer space will form itself into a sphere, because of its surface tension.
+> 🧠 **Daily Fact (June 01, 2026):** The largest NFL stadium is the Pontiac Silverdome in Detroit, Michigan.
 <!-- DAILY_FACT_END -->
