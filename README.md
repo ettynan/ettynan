@@ -3,5 +3,5 @@
 I'm Erin -> Problem Solver, Operations Enthusiast, Explorer. 
 
 <!-- DAILY_FACT_START -->
-> 🧠 **Daily Fact (June 07, 2026):** The Amazon is the world's largest river, 3,890 miles (6,259 km) long.
+> 🧠 **Daily Fact (June 08, 2026):** The giant red star Betelgeuse has a diameter larger than that of the Earth's orbit around the sun. 
 <!-- DAILY_FACT_END -->
