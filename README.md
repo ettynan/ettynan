@@ -3,5 +3,5 @@
 I'm Erin -> Problem Solver, Operations Enthusiast, Explorer. 
 
 <!-- DAILY_FACT_START -->
-> 🧠 **Daily Fact (June 08, 2026):** The giant red star Betelgeuse has a diameter larger than that of the Earth's orbit around the sun. 
+> 🧠 **Daily Fact (June 09, 2026):** Residents of Houston, Texas lead the U.S. in eating out - approximately 4.6 times per week.
 <!-- DAILY_FACT_END -->
