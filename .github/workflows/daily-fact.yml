@@ -1,5 +1,9 @@
 name: Daily Fact Update
 
+concurrency:
+  group: daily-fact-update
+  cancel-in-progress: true
+
 on:
   schedule:
     - cron: '0 12 * * *'  # Runs every day at noon UTC
@@ -20,9 +24,9 @@ jobs:
         run: |
           FETCHED_FACT=$(curl -s https://uselessfacts.jsph.pl/api/v2/facts/random?language=en | python3 -c "import sys, json; print(json.load(sys.stdin)['text'])")
           {
-          echo 'fact<<EOF'
-          echo "$FETCHED_FACT"
-          echo 'EOF'
+            echo 'fact<<EOF'
+            echo "$FETCHED_FACT"
+            echo 'EOF'
           } >> "$GITHUB_OUTPUT"
 
       - name: Update README with fact
@@ -39,7 +43,14 @@ jobs:
         run: |
           git config --global user.name 'ettynan'
           git config --global user.email '${{ secrets.GIT_EMAIL }}'
+
           git add README.md
-          git diff --cached --quiet || git commit -m "chore: update daily fact"
-          git pull --rebase
-          git push
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+
+          git commit -m "chore: update daily fact"
+          git pull origin main --no-rebase
+          git push origin main
