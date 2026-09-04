@@ -22,7 +22,7 @@ jobs:
       - name: Fetch a random fact
         id: fact
         run: |
-          FETCHED_FACT=$(curl -s https://uselessfacts.jsph.pl/api/v2/facts/random?language=en | python3 -c "import sys, json; print(json.load(sys.stdin)['text'])")
+          FETCHED_FACT=$(curl -fsS "https://www.drivebird.com/api/facts/random" | python3 -c "import sys, json; print(json.load(sys.stdin)['data'][0]['fact'])")
           {
             echo 'fact<<EOF'
             echo "$FETCHED_FACT"
