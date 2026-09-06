@@ -3,5 +3,5 @@
 I'm Erin -> Problem Solver, Operations Enthusiast, Explorer. 
 
 <!-- DAILY_FACT_START -->
-> 🧠 **Daily Fact (September 05, 2026):** In the 1830s, ketchup was marketed as a medicine, believed to cure ailments like indigestion and diarrhea.
+> 🧠 **Daily Fact (September 06, 2026):** The 'bystander effect' shows that the more people witness an emergency, the less likely any one of them is to help.
 <!-- DAILY_FACT_END -->
