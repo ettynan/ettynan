@@ -1,3 +1,4 @@
+
 name: Daily Fact Update
 
 concurrency:
@@ -18,6 +19,11 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v6
+        with:
+          ref: main
+
+      - name: Pull latest changes
+        run: git pull --ff-only origin main
 
       - name: Fetch a random fact
         id: fact
@@ -52,5 +58,4 @@ jobs:
           fi
 
           git commit -m "chore: update daily fact"
-          git pull origin main --no-rebase
           git push origin main
