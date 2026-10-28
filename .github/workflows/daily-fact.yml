@@ -27,8 +27,50 @@ jobs:
 
       - name: Fetch a random fact
         id: fact
+        shell: bash
         run: |
-          FETCHED_FACT=$(curl -fsS "https://www.drivebird.com/api/facts/random" | python3 -c "import sys, json; print(json.load(sys.stdin)['data'][0]['fact'])")
+          set -euo pipefail
+      
+          FETCHED_FACT=""
+      
+          echo "Trying Drivebird..."
+      
+          if RESPONSE=$(curl -fsS --retry 2 --retry-delay 3 \
+            --max-time 15 \
+            "https://www.drivebird.com/api/facts/random"); then
+      
+            FETCHED_FACT=$(printf '%s' "$RESPONSE" | python3 -c '
+          import sys, json
+          try:
+              fact = json.load(sys.stdin)["data"][0]["fact"]
+              if isinstance(fact, str) and fact.strip():
+                  print(fact.strip())
+          except (ValueError, KeyError, IndexError, TypeError):
+              pass
+          ')
+          fi
+      
+          if [ -z "$FETCHED_FACT" ]; then
+            echo "Drivebird failed. Trying Useless Facts API..."
+      
+            RESPONSE=$(curl -fsS --retry 2 --retry-delay 3 \
+              --max-time 15 \
+              "https://uselessfacts.jsph.pl/api/v2/facts/random?language=en")
+      
+            FETCHED_FACT=$(printf '%s' "$RESPONSE" | python3 -c '
+          import sys, json
+          data = json.load(sys.stdin)
+          fact = data["text"]
+          if not isinstance(fact, str) or not fact.strip():
+              raise ValueError("Invalid backup fact")
+          print(fact.strip())
+          ')
+      
+            echo "Backup API succeeded."
+          else
+            echo "Drivebird succeeded."
+          fi
+      
           {
             echo 'fact<<EOF'
             echo "$FETCHED_FACT"
